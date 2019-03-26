@@ -1,4 +1,4 @@
-package com.example.ocenystudenta;
+package com.example.ocenystudenta.MainActivity;
 
 import android.view.View;
 import android.widget.Toast;
@@ -34,7 +34,10 @@ public class TextLeaveListener implements View.OnFocusChangeListener {
                     message = "nazwisko";
                     break;
                 case "gradesQuantity":
-                    number = Integer.valueOf(mainActivity.gradesQuantityInput.getText().toString());
+                    if(!mainActivity.gradesQuantityInput.getText().toString().isEmpty())
+                    {
+                        number = Integer.valueOf(mainActivity.gradesQuantityInput.getText().toString());
+                    }
                     message = "liczba ocen";
                     break;
                 default:

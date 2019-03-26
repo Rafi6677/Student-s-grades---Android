@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity.MainActivity" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_alignBaseline="@+id/nameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Imię:"
+        android:text="@string/Imie"
         android:textSize="30sp" />
 
     <EditText
@@ -28,7 +28,7 @@
         android:layout_alignBaseline="@id/surnameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nazwisko:"
+        android:text="@string/Nazwisko"
         android:textSize="30sp" />
 
     <EditText
@@ -45,7 +45,7 @@
         android:layout_alignBaseline="@id/gradesQuantityInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Liczba ocen:"
+        android:text="@string/LiczbaOcen"
         android:textSize="30sp" />
 
     <EditText
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/gradesQuantityInput"
-        android:text="Oceny"
+        android:text="@string/Oceny"
         android:visibility="invisible" />
 
 </RelativeLayout>

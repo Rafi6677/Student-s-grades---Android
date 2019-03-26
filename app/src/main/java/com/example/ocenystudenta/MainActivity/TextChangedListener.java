@@ -1,4 +1,4 @@
-package com.example.ocenystudenta;
+package com.example.ocenystudenta.MainActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;

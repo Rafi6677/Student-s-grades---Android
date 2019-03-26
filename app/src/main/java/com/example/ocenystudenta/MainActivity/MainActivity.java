@@ -1,10 +1,14 @@
-package com.example.ocenystudenta;
+package com.example.ocenystudenta.MainActivity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.ocenystudenta.IndividualGradesActivity.IndividualGradesActivity;
+import com.example.ocenystudenta.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
         gradesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent secondActivity = new Intent(MainActivity.this, IndividualGradesActivity.class);
+                secondActivity.putExtra("gradesQuantity", MainActivity.this.gradesQuantityInput.getText().toString());
+                startActivity(secondActivity);
             }
         });
     }
