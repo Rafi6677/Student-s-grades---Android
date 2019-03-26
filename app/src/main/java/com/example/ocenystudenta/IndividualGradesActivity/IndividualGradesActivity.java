@@ -1,9 +1,9 @@
 package com.example.ocenystudenta.IndividualGradesActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,7 +21,7 @@ public class IndividualGradesActivity extends AppCompatActivity {
     private Button readyButton;
     private int gradesQuantity;
     private List<Integer> quantityList;
-    private Map<Integer, Integer> gradesList;
+    private Map<Integer, Integer> grades;
     private GradesAdapter adapter;
 
     @Override
@@ -33,35 +33,51 @@ public class IndividualGradesActivity extends AppCompatActivity {
         gradesQuantity = Integer.valueOf(bundle.getString("gradesQuantity"));
 
         quantityList = new ArrayList<>();
-        gradesList = new HashMap<>();
+        grades = new HashMap<>();
 
         for(int i=0; i<gradesQuantity; i++)
         {
             quantityList.add(i);
         }
 
-
         list = (ListView)findViewById(R.id.list);
-        adapter = new GradesAdapter(this, gradesQuantity, quantityList, gradesList);
+        adapter = new GradesAdapter(this, quantityList, grades);
         list.setAdapter(adapter);
 
         readyButton = (Button)findViewById(R.id.readyButton);
         readyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                obliczSrednia();
+                countAverageGrade();
             }
         });
     }
 
-    private void obliczSrednia()
+    private void countAverageGrade()
     {
-        int sum=0;
 
-        for (Integer value : gradesList.values())
-            sum  += value.intValue();
+        int sum = 0;
+        int counter = 0;
 
-        Toast.makeText(this, "Średnia: "+((float)sum)/ gradesQuantity, Toast.LENGTH_LONG).show();
+        for (Integer value : grades.values())
+        {
+            sum += value;
+            counter++;
+        }
+
+        if(counter != gradesQuantity)
+            Toast.makeText(this, "Wypełnij wszystkie pola!", Toast.LENGTH_SHORT).show();
+        else
+        {
+            double averageGrade = sum / gradesQuantity;
+
+            Bundle bundle=new Bundle();
+            bundle.putDouble("AverageGrade", averageGrade);
+            Intent intent=new Intent();
+            intent.putExtras(bundle);
+            setResult(RESULT_OK,intent);
+            finish();
+        }
     }
 }
 
