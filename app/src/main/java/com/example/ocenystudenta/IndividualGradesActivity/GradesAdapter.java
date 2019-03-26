@@ -11,20 +11,20 @@ import android.widget.TextView;
 import com.example.ocenystudenta.R;
 
 import java.util.List;
+import java.util.Map;
 
 public class GradesAdapter extends ArrayAdapter<Integer> {
 
     private int gradesQuantity;
     private List<Integer> quantityList;
-    private List<Integer> gradesList;
+    private Map<Integer, Integer> grades;
     private Activity context;
 
-    public GradesAdapter(Activity context, int gradesQuantity, List<Integer> quantityList, List<Integer> gradesList) {
+    public GradesAdapter(Activity context, int gradesQuantity, List<Integer> quantityList, Map<Integer, Integer> gradesList) {
         super(context, R.layout.single_row, quantityList);
         this.gradesQuantity = gradesQuantity;
         this.context = context;
-        this.quantityList = quantityList;
-        this.gradesList = gradesList;
+        this.grades = gradesList;
     }
 
     @Override
@@ -43,11 +43,13 @@ public class GradesAdapter extends ArrayAdapter<Integer> {
             label = (TextView)row.findViewById(R.id.label);
             radioGroup = (RadioGroup)row.findViewById(R.id.radioGroup);
 
-            radioGroup.setOnCheckedChangeListener(new RadioButtonCheckedChanged(context, gradesList));
+            radioGroup.setTag(rowNumber);
+
+            radioGroup.setOnCheckedChangeListener(new RadioButtonCheckedChanged(context, grades));
 
 
             //zapisanie informacji jakiemu wierszowi odpowiada pole tekstowe
-            radioGroup.setTag(rowNumber);
+
             //używanie wiersza „z odzysku”
         }
         else

@@ -5,16 +5,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import java.util.List;
+import java.util.Map;
 
 public class RadioButtonCheckedChanged implements RadioGroup.OnCheckedChangeListener{
 
     private Activity context;
-    private List<Integer> gradesList;
+    private Map<Integer, Integer> grades;
 
-    public RadioButtonCheckedChanged(Activity context, List<Integer> gradesList)
+    public RadioButtonCheckedChanged(Activity context, Map<Integer, Integer> gradesList)
     {
         this.context = context;
-        this.gradesList = gradesList;
+        this.grades = gradesList;
     }
 
     @Override
@@ -22,8 +23,11 @@ public class RadioButtonCheckedChanged implements RadioGroup.OnCheckedChangeList
         RadioButton radioButton = (RadioButton)context.findViewById(checkedId);
 
         int value = Integer.valueOf(radioButton.getText().toString());
-        int row = ((Integer) group.getTag()).intValue();
+        int row = Integer.valueOf(group.getTag().toString());
+        System.out.println(row);
 
-        gradesList.add(row, value);
+        grades.put(row, value);
+
+        System.out.println(grades);
     }
 }

@@ -11,7 +11,9 @@ import android.widget.Toast;
 import com.example.ocenystudenta.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IndividualGradesActivity extends AppCompatActivity {
 
@@ -19,8 +21,8 @@ public class IndividualGradesActivity extends AppCompatActivity {
     private Button readyButton;
     private int gradesQuantity;
     private List<Integer> quantityList;
-    private List<Integer> gradesList;
-    private ArrayAdapter<Integer> adapter;
+    private Map<Integer, Integer> gradesList;
+    private GradesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +33,13 @@ public class IndividualGradesActivity extends AppCompatActivity {
         gradesQuantity = Integer.valueOf(bundle.getString("gradesQuantity"));
 
         quantityList = new ArrayList<>();
-        gradesList = new ArrayList<>();
+        gradesList = new HashMap<>();
 
         for(int i=0; i<gradesQuantity; i++)
+        {
             quantityList.add(i);
+        }
+
 
         list = (ListView)findViewById(R.id.list);
         adapter = new GradesAdapter(this, gradesQuantity, quantityList, gradesList);
@@ -51,10 +56,12 @@ public class IndividualGradesActivity extends AppCompatActivity {
 
     private void obliczSrednia()
     {
-        int suma=0;
-        for (Integer liczba : gradesList)
-            suma+=liczba.intValue();
-        Toast.makeText(this, "Średnia: "+((float)suma)/ gradesQuantity, Toast.LENGTH_LONG).show();
+        int sum=0;
+
+        for (Integer value : gradesList.values())
+            sum  += value.intValue();
+
+        Toast.makeText(this, "Średnia: "+((float)sum)/ gradesQuantity, Toast.LENGTH_LONG).show();
     }
 }
 
