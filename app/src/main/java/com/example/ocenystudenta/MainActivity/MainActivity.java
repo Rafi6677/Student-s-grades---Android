@@ -1,5 +1,8 @@
 package com.example.ocenystudenta.MainActivity;
 
+import android.app.AlertDialog;
+import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ocenystudenta.IndividualGradesActivity.IndividualGradesActivity;
 import com.example.ocenystudenta.R;
@@ -79,8 +83,49 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK)
         {
             Bundle bundle = data.getExtras();
-            double averageGrade = bundle.getDouble("AverageGrade");
-            averageGradeInfo.setText("Srednia ocen: " + averageGrade);
+            float averageGrade = bundle.getFloat("AverageGrade");
+            boolean isAverageGradeOk = true;
+            averageGradeInfo.setText("Średnia ocen: " + averageGrade);
+
+            if(averageGrade >= 3)
+            {
+                gradesButton.setText("Super :)");
+                isAverageGradeOk = true;
+            }
+            else
+            {
+                gradesButton.setText("Tym razem mi nie poszło...");
+                isAverageGradeOk = false;
+            }
+
+            final boolean finalIsAverageGradeOk = isAverageGradeOk;
+            gradesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+
+                    if(finalIsAverageGradeOk)
+                    {
+                        dialog.setTitle("Gratulacje!")
+                                .setMessage("Otrzymujesz zaliczenie!");
+                    }
+                    else
+                    {
+                        dialog.setTitle("Niestety.")
+                                .setMessage("Wysyłam podanie o zaliczenie warunkowe.");
+                    }
+
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MainActivity.this.finish();
+                        }
+                    });
+
+                    dialog.create();
+                    dialog.show();
+                }
+            });
         }
     }
 }

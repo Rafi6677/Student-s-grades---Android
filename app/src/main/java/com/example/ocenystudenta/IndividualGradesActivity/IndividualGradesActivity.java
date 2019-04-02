@@ -69,10 +69,10 @@ public class IndividualGradesActivity extends AppCompatActivity {
             Toast.makeText(this, "Wypełnij wszystkie pola!", Toast.LENGTH_SHORT).show();
         else
         {
-            double averageGrade = sum / gradesQuantity;
+            float averageGrade = (float)sum/gradesQuantity;
 
             Bundle bundle=new Bundle();
-            bundle.putDouble("AverageGrade", averageGrade);
+            bundle.putFloat("AverageGrade", averageGrade);
             Intent intent=new Intent();
             intent.putExtras(bundle);
             setResult(RESULT_OK,intent);

@@ -74,7 +74,7 @@ public class TextChangedListener implements TextWatcher {
         {
             int number = Integer.valueOf(text);
 
-            if(number < 1 || number > 15 || text.isEmpty()) return false;
+            if(number < 5 || number > 15 || text.isEmpty()) return false;
             else return true;
         }
     }

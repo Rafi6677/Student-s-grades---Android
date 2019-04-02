@@ -51,9 +51,9 @@ public class TextLeaveListener implements View.OnFocusChangeListener {
                 Toast toast = Toast.makeText(mainActivity, "Pole '"+message+"' zawiera nieprawidłowe znaki", Toast.LENGTH_SHORT);
                 toast.show();
             }
-            else if((id.equals("gradesQuantity") && (number < 1 || number > 15)) || (id.equals("gradesQuantity") && mainActivity.gradesQuantityInput.getText().toString().isEmpty()))
+            else if((id.equals("gradesQuantity") && (number < 5 || number > 15)) || (id.equals("gradesQuantity") && mainActivity.gradesQuantityInput.getText().toString().isEmpty()))
             {
-                Toast toast = Toast.makeText(mainActivity, "Pole '"+message+"' musi się zawierać w przedziale 1-15", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(mainActivity, "Pole '"+message+"' musi się zawierać w przedziale 5-15", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
