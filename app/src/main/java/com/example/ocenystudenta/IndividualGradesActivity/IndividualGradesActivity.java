@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.ocenystudenta.R;
@@ -17,7 +18,10 @@ import java.util.Map;
 
 public class IndividualGradesActivity extends AppCompatActivity {
 
+    private ListView  list;
+    private GradesAdapter adapter;
     private int gradesQuantity;
+    private List<Integer> quantityList;
     private Map<Integer, Integer> grades;
 
     @Override
@@ -26,20 +30,31 @@ public class IndividualGradesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_individual_grades);
 
         Bundle bundle = getIntent().getExtras();
-        gradesQuantity = Integer.valueOf(bundle.getString("gradesQuantity"));
+
         grades = new HashMap<>();
+        quantityList = new ArrayList<>();
 
-        List<Integer> quantityList = new ArrayList<>();
-        ListView list = (ListView) findViewById(R.id.list);
-        GradesAdapter adapter = new GradesAdapter(this, quantityList, grades);
-
-        list.setAdapter(adapter);
+        gradesQuantity = Integer.valueOf(bundle.getString("gradesQuantity"));
 
         for(int i=0; i<gradesQuantity; i++) {
             quantityList.add(i);
+            grades.put(i, 5);
         }
 
-        Button readyButton = (Button) findViewById(R.id.readyButton);
+        try {
+            gradesQuantity = savedInstanceState.getInt("gradesQuantity");
+
+            for(int i=0; i<gradesQuantity; i++) {
+                grades.put(i, savedInstanceState.getInt(String.valueOf(i)));
+            }
+        }
+        catch (NullPointerException e) { }
+
+        list = findViewById(R.id.list);
+        adapter = new GradesAdapter(this, quantityList, grades);
+        list.setAdapter(adapter);
+
+        Button readyButton = findViewById(R.id.readyButton);
         readyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,28 +63,31 @@ public class IndividualGradesActivity extends AppCompatActivity {
         });
     }
 
-    private void countAverageGrade()
-    {
+    private void countAverageGrade() {
         int sum = 0;
-        int counter = 0;
 
-        for (Integer value : grades.values()) {
+        for (Integer value : grades.values())
             sum += value;
-            counter++;
+
+        float averageGrade = (float)sum/gradesQuantity;
+
+        Bundle bundle = new Bundle();
+        bundle.putFloat("AverageGrade", averageGrade);
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        for (Map.Entry<Integer, Integer> entry : grades.entrySet()) {
+            outState.putInt(entry.getKey().toString(), entry.getValue());
         }
 
-        if(counter != gradesQuantity)
-            Toast.makeText(this, "Wypełnij wszystkie pola!", Toast.LENGTH_SHORT).show();
-        else {
-            float averageGrade = (float)sum/gradesQuantity;
+        outState.putInt("gradesQuantity", grades.size());
 
-            Bundle bundle=new Bundle();
-            bundle.putFloat("AverageGrade", averageGrade);
-            Intent intent=new Intent();
-            intent.putExtras(bundle);
-            setResult(RESULT_OK,intent);
-            finish();
-        }
+        super.onSaveInstanceState(outState);
     }
 }
 

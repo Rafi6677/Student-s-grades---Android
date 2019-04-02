@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.ocenystudenta.IndividualGradesActivity.IndividualGradesActivity;
 import com.example.ocenystudenta.R;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     Button gradesButton;
@@ -81,9 +83,13 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK)
         {
             Bundle bundle = data.getExtras();
+
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+
             float averageGrade = bundle.getFloat("AverageGrade");
             boolean isAverageGradeOk = true;
-            averageGradeInfo.setText("Średnia ocen: " + averageGrade);
+            averageGradeInfo.setText("Średnia ocen: " + df.format(averageGrade));
 
             if(averageGrade >= 3)
                 gradesButton.setText("Super :)");
@@ -120,5 +126,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("name", nameInput.getText().toString());
+        outState.putString("surname", surnameInput.getText().toString());
+        outState.putString("gradesQuantity", gradesQuantityInput.getText().toString());
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        nameInput.setText(savedInstanceState.getString("name"));
+        surnameInput.setText(savedInstanceState.getString("surname"));
+        gradesQuantityInput.setText(savedInstanceState.getString("gradesQuantity"));
     }
 }

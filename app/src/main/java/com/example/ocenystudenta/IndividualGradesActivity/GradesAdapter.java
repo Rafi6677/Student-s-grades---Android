@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -18,10 +19,10 @@ public class GradesAdapter extends ArrayAdapter<Integer> {
     private Map<Integer, Integer> grades;
     private Activity context;
 
-    GradesAdapter(Activity context, List<Integer> quantityList, Map<Integer, Integer> gradesList) {
+    GradesAdapter(Activity context, List<Integer> quantityList, Map<Integer, Integer> grades) {
         super(context, R.layout.single_row, quantityList);
         this.context = context;
-        this.grades = gradesList;
+        this.grades = grades;
     }
 
     @Override
@@ -38,6 +39,18 @@ public class GradesAdapter extends ArrayAdapter<Integer> {
             radioGroup = row.findViewById(R.id.radioGroup);
 
             radioGroup.setTag(rowNumber);
+            int value = grades.get(rowNumber);
+            int index;
+
+            switch(value) {
+                case 2: index = 0; break;
+                case 3: index = 1; break;
+                case 4: index = 2; break;
+                case 5: index = 3; break;
+                default: index = 3; break;
+            }
+
+            ((RadioButton)radioGroup.getChildAt(index)).setChecked(true);
             radioGroup.setOnCheckedChangeListener(new RadioButtonCheckedChanged(context, grades));
         }
         else {

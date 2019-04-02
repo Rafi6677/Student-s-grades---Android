@@ -25,5 +25,7 @@ public class RadioButtonCheckedChanged implements RadioGroup.OnCheckedChangeList
         int row = Integer.valueOf(group.getTag().toString());
 
         grades.put(row, value);
+
+        System.out.println(grades);
     }
 }
