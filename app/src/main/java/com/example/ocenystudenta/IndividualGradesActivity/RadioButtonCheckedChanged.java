@@ -12,22 +12,18 @@ public class RadioButtonCheckedChanged implements RadioGroup.OnCheckedChangeList
     private Activity context;
     private Map<Integer, Integer> grades;
 
-    public RadioButtonCheckedChanged(Activity context, Map<Integer, Integer> gradesList)
-    {
+    RadioButtonCheckedChanged(Activity context, Map<Integer, Integer> gradesList) {
         this.context = context;
         this.grades = gradesList;
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        RadioButton radioButton = (RadioButton)context.findViewById(checkedId);
+        RadioButton radioButton = context.findViewById(checkedId);
 
         int value = Integer.valueOf(radioButton.getText().toString());
         int row = Integer.valueOf(group.getTag().toString());
-        System.out.println(row);
 
         grades.put(row, value);
-
-        System.out.println(grades);
     }
 }

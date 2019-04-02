@@ -2,6 +2,6 @@
     <string name="app_name">Oceny Studenta</string>
     <string name="Imie">Imię</string>
     <string name="Nazwisko">Nazwisko</string>
-    <string name="LiczbaOcen">Liczba ocen</string>
+    <string name="LiczbaOcen">Liczba ocen (5-15)</string>
     <string name="Oceny">Oceny</string>
 </resources>

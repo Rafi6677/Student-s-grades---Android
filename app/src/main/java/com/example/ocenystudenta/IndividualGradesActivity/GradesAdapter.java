@@ -18,7 +18,7 @@ public class GradesAdapter extends ArrayAdapter<Integer> {
     private Map<Integer, Integer> grades;
     private Activity context;
 
-    public GradesAdapter(Activity context, List<Integer> quantityList, Map<Integer, Integer> gradesList) {
+    GradesAdapter(Activity context, List<Integer> quantityList, Map<Integer, Integer> gradesList) {
         super(context, R.layout.single_row, quantityList);
         this.context = context;
         this.grades = gradesList;
@@ -30,24 +30,23 @@ public class GradesAdapter extends ArrayAdapter<Integer> {
         RadioGroup radioGroup = null;
         TextView label = null;
 
-        if(rowToRecycle == null)
-        {
+        if(rowToRecycle == null) {
             LayoutInflater pump = context.getLayoutInflater();
             row = pump.inflate(R.layout.single_row, null);
 
-            label = (TextView)row.findViewById(R.id.label);
-            radioGroup = (RadioGroup)row.findViewById(R.id.radioGroup);
+            label = row.findViewById(R.id.label);
+            radioGroup = row.findViewById(R.id.radioGroup);
 
             radioGroup.setTag(rowNumber);
             radioGroup.setOnCheckedChangeListener(new RadioButtonCheckedChanged(context, grades));
         }
-        else
-        {
+        else {
             row = rowToRecycle;
             radioGroup = (RadioGroup)row.findViewById(R.id.radioGroup);
             label = (TextView)row.findViewById(R.id.label);
             radioGroup.setTag(rowNumber);
         }
+
         label.setText("Ocena "+(rowNumber+1)+": ");
         return row;
     }

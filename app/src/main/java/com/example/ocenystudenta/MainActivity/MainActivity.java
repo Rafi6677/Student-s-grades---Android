@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
         prepareButton();
     }
 
-    private void setVariables()
-    {
+    private void setVariables() {
         isNameCorrect = false;
         isSurnameCorrect = false;
         isGradesQuantityCorrect = false;
@@ -51,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
         averageGradeInfo = (TextView)findViewById(R.id.averageGradeInfo);
     }
 
-    private void setEditTextListeners()
-    {
+    private void setEditTextListeners() {
         nameInput.addTextChangedListener(new TextChangedListener(this, "name"));
         nameInput.setOnFocusChangeListener(new TextLeaveListener(this, "name"));
 
@@ -63,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
         gradesQuantityInput.setOnFocusChangeListener(new TextLeaveListener(this, "gradesQuantity"));
     }
 
-    private void prepareButton()
-    {
-        if(isNameCorrect && isSurnameCorrect && isGradesQuantityCorrect) gradesButton.setVisibility(View.VISIBLE);
+    private void prepareButton() {
+        if(isNameCorrect && isSurnameCorrect && isGradesQuantityCorrect)
+            gradesButton.setVisibility(View.VISIBLE);
 
         gradesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,29 +86,24 @@ public class MainActivity extends AppCompatActivity {
             averageGradeInfo.setText("Średnia ocen: " + averageGrade);
 
             if(averageGrade >= 3)
-            {
                 gradesButton.setText("Super :)");
-                isAverageGradeOk = true;
-            }
-            else
-            {
+            else {
                 gradesButton.setText("Tym razem mi nie poszło...");
                 isAverageGradeOk = false;
             }
 
             final boolean finalIsAverageGradeOk = isAverageGradeOk;
+
             gradesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
 
-                    if(finalIsAverageGradeOk)
-                    {
+                    if(finalIsAverageGradeOk) {
                         dialog.setTitle("Gratulacje!")
                                 .setMessage("Otrzymujesz zaliczenie!");
                     }
-                    else
-                    {
+                    else {
                         dialog.setTitle("Niestety.")
                                 .setMessage("Wysyłam podanie o zaliczenie warunkowe.");
                     }
