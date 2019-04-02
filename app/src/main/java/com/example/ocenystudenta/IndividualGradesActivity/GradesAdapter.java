@@ -39,19 +39,6 @@ public class GradesAdapter extends ArrayAdapter<Integer> {
             radioGroup = row.findViewById(R.id.radioGroup);
 
             radioGroup.setTag(rowNumber);
-            int value = grades.get(rowNumber);
-            int index;
-
-            switch(value) {
-                case 2: index = 0; break;
-                case 3: index = 1; break;
-                case 4: index = 2; break;
-                case 5: index = 3; break;
-                default: index = 3; break;
-            }
-
-            ((RadioButton)radioGroup.getChildAt(index)).setChecked(true);
-            radioGroup.setOnCheckedChangeListener(new RadioButtonCheckedChanged(context, grades));
         }
         else {
             row = rowToRecycle;
@@ -59,6 +46,20 @@ public class GradesAdapter extends ArrayAdapter<Integer> {
             label = (TextView)row.findViewById(R.id.label);
             radioGroup.setTag(rowNumber);
         }
+
+        int value = grades.get(rowNumber);
+        int index;
+
+        switch(value) {
+            case 2: index = 0; break;
+            case 3: index = 1; break;
+            case 4: index = 2; break;
+            case 5: index = 3; break;
+            default: index = 3; break;
+        }
+
+        ((RadioButton)radioGroup.getChildAt(index)).setChecked(true);
+        radioGroup.setOnCheckedChangeListener(new RadioButtonCheckedChanged(context, grades));
 
         label.setText("Ocena "+(rowNumber+1)+": ");
         return row;

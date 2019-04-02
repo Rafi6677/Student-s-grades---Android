@@ -48,7 +48,7 @@ public class IndividualGradesActivity extends AppCompatActivity {
                 grades.put(i, savedInstanceState.getInt(String.valueOf(i)));
             }
         }
-        catch (NullPointerException e) { }
+        catch (NullPointerException ignored) { }
 
         list = findViewById(R.id.list);
         adapter = new GradesAdapter(this, quantityList, grades);

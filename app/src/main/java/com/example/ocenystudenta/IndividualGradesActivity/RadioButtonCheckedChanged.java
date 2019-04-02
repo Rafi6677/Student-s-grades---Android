@@ -21,11 +21,12 @@ public class RadioButtonCheckedChanged implements RadioGroup.OnCheckedChangeList
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         RadioButton radioButton = context.findViewById(checkedId);
 
-        int value = Integer.valueOf(radioButton.getText().toString());
-        int row = Integer.valueOf(group.getTag().toString());
+        try {
+            int value = Integer.valueOf(radioButton.getText().toString());
+            int row = Integer.valueOf(group.getTag().toString());
 
-        grades.put(row, value);
-
-        System.out.println(grades);
+            grades.put(row, value);
+        }
+        catch (NullPointerException ignore) { }
     }
 }
