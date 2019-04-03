@@ -1,7 +1,6 @@
 package com.example.ocenystudenta.MainActivity;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ocenystudenta.IndividualGradesActivity.IndividualGradesActivity;
 import com.example.ocenystudenta.R;
@@ -30,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean isSurnameCorrect;
     public boolean isGradesQuantityCorrect;
 
+    private float averageGrade;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         setVariables();
         setEditTextListeners();
-        prepareButton();
+        prepareGradesButton();
     }
 
     private void setVariables() {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         gradesQuantityInput.setOnFocusChangeListener(new TextLeaveListener(this, "gradesQuantity"));
     }
 
-    private void prepareButton() {
+    private void prepareGradesButton() {
         if(isNameCorrect && isSurnameCorrect && isGradesQuantityCorrect)
             gradesButton.setVisibility(View.VISIBLE);
 
@@ -87,45 +87,51 @@ public class MainActivity extends AppCompatActivity {
             DecimalFormat df = new DecimalFormat();
             df.setMaximumFractionDigits(2);
 
-            float averageGrade = bundle.getFloat("AverageGrade");
-            boolean isAverageGradeOk = true;
+            averageGrade = bundle.getFloat("AverageGrade");
             averageGradeInfo.setText("Średnia ocen: " + df.format(averageGrade));
 
-            if(averageGrade >= 3)
-                gradesButton.setText("Super :)");
-            else {
-                gradesButton.setText("Tym razem mi nie poszło...");
-                isAverageGradeOk = false;
-            }
-
-            final boolean finalIsAverageGradeOk = isAverageGradeOk;
-
-            gradesButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-
-                    if(finalIsAverageGradeOk) {
-                        dialog.setTitle("Gratulacje!")
-                                .setMessage("Otrzymujesz zaliczenie!");
-                    }
-                    else {
-                        dialog.setTitle("Niestety.")
-                                .setMessage("Wysyłam podanie o zaliczenie warunkowe.");
-                    }
-
-                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            MainActivity.this.finish();
-                        }
-                    });
-
-                    dialog.create();
-                    dialog.show();
-                }
-            });
+            prepareEndingActivityButton(averageGrade);
         }
+    }
+
+    private void prepareEndingActivityButton(float averageGrade) {
+        boolean isAverageGradeOk = true;
+        System.out.println(averageGrade);
+
+        if(averageGrade >= 3)
+            gradesButton.setText("Super :)");
+        else {
+            gradesButton.setText("Tym razem mi nie poszło...");
+            isAverageGradeOk = false;
+        }
+
+        final boolean finalIsAverageGradeOk = isAverageGradeOk;
+
+        gradesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+
+                if(finalIsAverageGradeOk) {
+                    dialog.setTitle("Gratulacje!")
+                            .setMessage("Otrzymujesz zaliczenie!");
+                }
+                else {
+                    dialog.setTitle("Niestety.")
+                            .setMessage("Wysyłam podanie o zaliczenie warunkowe.");
+                }
+
+                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.this.finish();
+                    }
+                });
+
+                dialog.create();
+                dialog.show();
+            }
+        });
     }
 
     @Override
@@ -133,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
         outState.putString("name", nameInput.getText().toString());
         outState.putString("surname", surnameInput.getText().toString());
         outState.putString("gradesQuantity", gradesQuantityInput.getText().toString());
+        outState.putFloat("averageGrade", averageGrade);
+        outState.putString("averageGradeText", averageGradeInfo.getText().toString());
 
         super.onSaveInstanceState(outState);
     }
@@ -144,5 +152,12 @@ public class MainActivity extends AppCompatActivity {
         nameInput.setText(savedInstanceState.getString("name"));
         surnameInput.setText(savedInstanceState.getString("surname"));
         gradesQuantityInput.setText(savedInstanceState.getString("gradesQuantity"));
+        averageGradeInfo.setText(savedInstanceState.getString("averageGradeText"));
+
+        float averageGrade = savedInstanceState.getFloat("averageGrade");
+
+        if(!averageGradeInfo.getText().toString().isEmpty()) {
+            prepareEndingActivityButton(averageGrade);
+        }
     }
 }
